@@ -25,7 +25,7 @@ Sumo_config = [
 traci.start(Sumo_config)
 
 # Step 6: Define Variables
-lane_detectors = ['1', '2', '3', '4', '5', '6', '7', '8']
+lane_detectors = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8']
 
 # Step 7: Define Functions
 def print_queue_lengths():
@@ -48,6 +48,10 @@ while traci.simulation.getMinExpectedNumber() > 0:
     if num_steps % 20 == 0:  # every 1s
         print(f"\nTime: {num_steps/20:.2f}s")
         print_queue_lengths()
-
+        program = traci.trafficlight.getAllProgramLogics("traffic_light")[0]
+        print(program)
+        print("------------")
+        print(program.phases[0])
+        print(program.phases[1])
 # Step 9: Close connection between SUMO and Traci
 traci.close()

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2025-07-09 22:00:36 by Eclipse SUMO netedit Version 1.23.1
+<!-- generated on 2025-07-10 00:55:18 by Eclipse SUMO netedit Version 1.23.1
 <neteditConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/neteditConfiguration.xsd">
 
     <input>
@@ -114,23 +114,23 @@
         <lane id="r_3_5_S_1" index="1" speed="13.89" length="100.00" shape="-0.80,1.16 -0.79,-84.49"/>
     </edge>
 
-    <tlLogic id="clusterJ1_J2_J5_J6" type="static" programID="0" offset="0">
-        <phase duration="3"  state="GGGrrrrrGGGrrrrr"/>
-        <phase duration="3"  state="yyyrrrrryyyrrrrr"/>
-        <phase duration="3"  state="rrrrGGGrrrrrGGGr"/>
-        <phase duration="3"  state="rrrryyyrrrrryyyr"/>
-        <phase duration="3"  state="rrrGrrrrrrrGrrrr"/>
-        <phase duration="3"  state="rrryrrrrrrryrrrr"/>
-        <phase duration="2"  state="rrrrrrrGrrrrrrrG"/>
-        <phase duration="2"  state="rrrrrrryrrrrrrry"/>
-        <phase duration="2"  state="GGGGrrrrrrrrrrrr"/>
-        <phase duration="2"  state="yyyyrrrrrrrrrrrr"/>
-        <phase duration="2"  state="rrrrGGGGrrrrrrrr"/>
-        <phase duration="2"  state="rrrryyyyrrrrrrrr"/>
-        <phase duration="3"  state="rrrrrrrrGGGGrrrr"/>
-        <phase duration="3"  state="rrrrrrrryyyyrrrr"/>
-        <phase duration="3"  state="rrrrrrrrrrrrGGGG"/>
-        <phase duration="3"  state="rrrrrrrrrrrryyyy"/>
+    <tlLogic id="traffic_light" type="static" programID="0" offset="0">
+        <phase duration="1000" state="GGGrrrrrGGGrrrrr"/>
+        <phase duration="1000" state="yyyrrrrryyyrrrrr"/>
+        <phase duration="1000" state="rrrrGGGrrrrrGGGr"/>
+        <phase duration="1000" state="rrrryyyrrrrryyyr"/>
+        <phase duration="1000" state="rrrGrrrrrrrGrrrr"/>
+        <phase duration="1000" state="rrryrrrrrrryrrrr"/>
+        <phase duration="1000" state="rrrrrrrGrrrrrrrG"/>
+        <phase duration="1000" state="rrrrrrryrrrrrrry"/>
+        <phase duration="1000" state="GGGGrrrrrrrrrrrr"/>
+        <phase duration="1000" state="yyyyrrrrrrrrrrrr"/>
+        <phase duration="1000" state="rrrrGGGGrrrrrrrr"/>
+        <phase duration="1000" state="rrrryyyyrrrrrrrr"/>
+        <phase duration="1000" state="rrrrrrrrGGGGrrrr"/>
+        <phase duration="1000" state="rrrrrrrryyyyrrrr"/>
+        <phase duration="1000" state="rrrrrrrrrrrrGGGG"/>
+        <phase duration="1000" state="rrrrrrrrrrrryyyy"/>
     </tlLogic>
 
     <junction id="1" type="dead_end" x="-4.05" y="124.69" incLanes="r_1_3_N_0 r_1_3_N_1" intLanes="" shape="-4.05,124.69 -10.45,124.69 -4.05,124.69"/>
@@ -156,22 +156,22 @@
     <junction id="4" type="dead_end" x="99.46" y="11.66" incLanes="r_3_4_E_0 r_3_4_E_1" intLanes="" shape="99.46,11.66 99.45,18.06 99.46,11.66"/>
     <junction id="5" type="dead_end" x="-2.39" y="-84.49" incLanes="r_3_5_S_0 r_3_5_S_1" intLanes="" shape="-2.39,-84.49 4.01,-84.49 -2.39,-84.49"/>
 
-    <connection from="r_1_3_S" to="r_3_4_E" fromLane="0" toLane="0" via=":3_8_0" tl="clusterJ1_J2_J5_J6" linkIndex="8" dir="l" state="O"/>
-    <connection from="r_1_3_S" to="r_3_5_S" fromLane="0" toLane="0" via=":3_9_0" tl="clusterJ1_J2_J5_J6" linkIndex="9" dir="s" state="O"/>
-    <connection from="r_1_3_S" to="r_3_5_S" fromLane="1" toLane="1" via=":3_9_1" tl="clusterJ1_J2_J5_J6" linkIndex="10" dir="s" state="O"/>
-    <connection from="r_1_3_S" to="r_2_3_W" fromLane="1" toLane="1" via=":3_11_0" tl="clusterJ1_J2_J5_J6" linkIndex="11" dir="r" state="o"/>
-    <connection from="r_2_3_E" to="r_1_3_N" fromLane="0" toLane="0" via=":3_12_0" tl="clusterJ1_J2_J5_J6" linkIndex="12" dir="l" state="o"/>
-    <connection from="r_2_3_E" to="r_3_4_E" fromLane="0" toLane="0" via=":3_13_0" tl="clusterJ1_J2_J5_J6" linkIndex="13" dir="s" state="o"/>
-    <connection from="r_2_3_E" to="r_3_4_E" fromLane="1" toLane="1" via=":3_13_1" tl="clusterJ1_J2_J5_J6" linkIndex="14" dir="s" state="o"/>
-    <connection from="r_2_3_E" to="r_3_5_S" fromLane="1" toLane="1" via=":3_15_0" tl="clusterJ1_J2_J5_J6" linkIndex="15" dir="r" state="o"/>
-    <connection from="r_3_4_W" to="r_3_5_S" fromLane="0" toLane="0" via=":3_4_0" tl="clusterJ1_J2_J5_J6" linkIndex="4" dir="l" state="o"/>
-    <connection from="r_3_4_W" to="r_2_3_W" fromLane="0" toLane="0" via=":3_5_0" tl="clusterJ1_J2_J5_J6" linkIndex="5" dir="s" state="o"/>
-    <connection from="r_3_4_W" to="r_2_3_W" fromLane="1" toLane="1" via=":3_5_1" tl="clusterJ1_J2_J5_J6" linkIndex="6" dir="s" state="o"/>
-    <connection from="r_3_4_W" to="r_1_3_N" fromLane="1" toLane="1" via=":3_7_0" tl="clusterJ1_J2_J5_J6" linkIndex="7" dir="r" state="o"/>
-    <connection from="r_3_5_N" to="r_2_3_W" fromLane="0" toLane="0" via=":3_0_0" tl="clusterJ1_J2_J5_J6" linkIndex="0" dir="l" state="O"/>
-    <connection from="r_3_5_N" to="r_1_3_N" fromLane="0" toLane="0" via=":3_1_0" tl="clusterJ1_J2_J5_J6" linkIndex="1" dir="s" state="O"/>
-    <connection from="r_3_5_N" to="r_1_3_N" fromLane="1" toLane="1" via=":3_1_1" tl="clusterJ1_J2_J5_J6" linkIndex="2" dir="s" state="O"/>
-    <connection from="r_3_5_N" to="r_3_4_E" fromLane="1" toLane="1" via=":3_3_0" tl="clusterJ1_J2_J5_J6" linkIndex="3" dir="r" state="o"/>
+    <connection from="r_1_3_S" to="r_3_4_E" fromLane="0" toLane="0" via=":3_8_0" tl="traffic_light" linkIndex="8" dir="l" state="O"/>
+    <connection from="r_1_3_S" to="r_3_5_S" fromLane="0" toLane="0" via=":3_9_0" tl="traffic_light" linkIndex="9" dir="s" state="O"/>
+    <connection from="r_1_3_S" to="r_3_5_S" fromLane="1" toLane="1" via=":3_9_1" tl="traffic_light" linkIndex="10" dir="s" state="O"/>
+    <connection from="r_1_3_S" to="r_2_3_W" fromLane="1" toLane="1" via=":3_11_0" tl="traffic_light" linkIndex="11" dir="r" state="o"/>
+    <connection from="r_2_3_E" to="r_1_3_N" fromLane="0" toLane="0" via=":3_12_0" tl="traffic_light" linkIndex="12" dir="l" state="o"/>
+    <connection from="r_2_3_E" to="r_3_4_E" fromLane="0" toLane="0" via=":3_13_0" tl="traffic_light" linkIndex="13" dir="s" state="o"/>
+    <connection from="r_2_3_E" to="r_3_4_E" fromLane="1" toLane="1" via=":3_13_1" tl="traffic_light" linkIndex="14" dir="s" state="o"/>
+    <connection from="r_2_3_E" to="r_3_5_S" fromLane="1" toLane="1" via=":3_15_0" tl="traffic_light" linkIndex="15" dir="r" state="o"/>
+    <connection from="r_3_4_W" to="r_3_5_S" fromLane="0" toLane="0" via=":3_4_0" tl="traffic_light" linkIndex="4" dir="l" state="o"/>
+    <connection from="r_3_4_W" to="r_2_3_W" fromLane="0" toLane="0" via=":3_5_0" tl="traffic_light" linkIndex="5" dir="s" state="o"/>
+    <connection from="r_3_4_W" to="r_2_3_W" fromLane="1" toLane="1" via=":3_5_1" tl="traffic_light" linkIndex="6" dir="s" state="o"/>
+    <connection from="r_3_4_W" to="r_1_3_N" fromLane="1" toLane="1" via=":3_7_0" tl="traffic_light" linkIndex="7" dir="r" state="o"/>
+    <connection from="r_3_5_N" to="r_2_3_W" fromLane="0" toLane="0" via=":3_0_0" tl="traffic_light" linkIndex="0" dir="l" state="O"/>
+    <connection from="r_3_5_N" to="r_1_3_N" fromLane="0" toLane="0" via=":3_1_0" tl="traffic_light" linkIndex="1" dir="s" state="O"/>
+    <connection from="r_3_5_N" to="r_1_3_N" fromLane="1" toLane="1" via=":3_1_1" tl="traffic_light" linkIndex="2" dir="s" state="O"/>
+    <connection from="r_3_5_N" to="r_3_4_E" fromLane="1" toLane="1" via=":3_3_0" tl="traffic_light" linkIndex="3" dir="r" state="o"/>
 
     <connection from=":3_0" to="r_2_3_W" fromLane="0" toLane="0" dir="l" state="M"/>
     <connection from=":3_1" to="r_1_3_N" fromLane="0" toLane="0" dir="s" state="M"/>
