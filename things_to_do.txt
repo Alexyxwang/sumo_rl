@@ -1,0 +1,19 @@
+- Read through papers to know what they did
+- Add different type of vehicles to the SUMO simulation right now it all just normal vehicles
+- maybe add pedestrian traffic light crossings
+- try a bunch of traffic scenarios i.e. rush hour and stuff (it is in the README actually, and also maybe find in papers)
+    - also need to change in netedit (SUMO) how many cars there are and stuff for each path across the intersection
+- maybe recreate a real life intersection
+    - could make the intersection larger
+- think about different reward functions we can use and think about what our goal is 
+    - i.e. currently the reward function wants to minimise queue size, however this has the problem that lets say if everybody is travelling in 1 direction, maybe other intersections wont be able to go
+        - idk if this goes into like stuf about equality i.e. is it fair for people on one of the less busy streets to wait forever for the tradeoff that busy streets wont get as jammed
+- think about what additional data might we add for our RL states 
+    - right now it is just a value correspondign to each lane which counts the number of stationary queueing vehicles 
+    - some ideas: 
+        - could count all vehicles (doesnt have to be queueing)
+        - maybe vehicle speed (prob not cos irl might incentive speeding)
+- need to implement compulsory yellow lights when lights are changing from green to reward
+- fine tuning the RL parameters
+- create plots such as how total queue time, perhaps a wave plot or whatever its called of the distribution of the number of cars waiting at each step
+- ALSO JSUT WORKIGN O NTEH REPOORT
