@@ -7,19 +7,23 @@ import traci
 import time
 
 # ----- Setup -----
-if 'SUMO_HOME' in os.environ:
-    tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
+if "SUMO_HOME" in os.environ:
+    tools = os.path.join(os.environ["SUMO_HOME"], "tools")
     sys.path.append(tools)
 else:
     sys.exit("Please declare environment variable 'SUMO_HOME'")
 
 # SUMO configuration
 sumo_config = [
-    'sumo-gui',
-    '-c', 'SUMO_networks/junction.sumocfg',
-    '--step-length', '0.05',
-    '--delay', '1000'
+    "sumo-gui",
+    "-c",
+    "SUMO_networks/junction.sumocfg",
+    "--step-length",
+    "0.05",
+    "--delay",
+    "1000",
 ]
+
 
 # ----- DQN Model -----
 class DQN(nn.Module):
@@ -30,16 +34,18 @@ class DQN(nn.Module):
             nn.ReLU(),
             nn.Linear(128, 64),
             nn.ReLU(),
-            nn.Linear(64, action_dim)
+            nn.Linear(64, action_dim),
         )
 
     def forward(self, x):
         return self.main(x)
 
+
 # ----- Environment Setup -----
-lane_detectors = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8']
+lane_detectors = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8"]
 TRAFFIC_LIGHT_ID = "traffic_light"
 MIN_PHASE_DURATION = 5
+
 
 def get_state():
     state = []
@@ -47,9 +53,11 @@ def get_state():
         state.append(traci.lanearea.getLastStepHaltingNumber(detector))
     return torch.tensor(state, dtype=torch.float)
 
+
 def simulate(seconds=MIN_PHASE_DURATION):
     for _ in range(20 * seconds):  # since step-length is 0.05
         traci.simulationStep()
+
 
 def step(action):
     traci.trafficlight.setPhase(TRAFFIC_LIGHT_ID, 2 * action)
@@ -59,6 +67,7 @@ def step(action):
     reward = -queue_size
     done = traci.simulation.getMinExpectedNumber() == 0
     return next_state, reward, done, queue_size
+
 
 # ----- Load Trained Model -----
 state_size = 8
