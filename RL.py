@@ -16,8 +16,7 @@ import traci
 
 sumo_config = [
     "sumo",
-    "-c",
-    "SUMO_networks/junction.sumocfg",
+    "-c", "SUMO_networks/junction.sumocfg",
     "--step-length", "0.05",
     "--delay", "0",
     "--lateral-resolution", "0.1",
