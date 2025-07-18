@@ -1,16 +1,17 @@
-- Read through papers to know what they did
+- Read through papers to know what they did:
+--- https://arxiv.org/pdf/1905.07698 (#4 on the project spec)
+--- https://github.com/tjwhitaker/human-level-control-through-deep-reinforcement-learning/blob/master/research/human-level-control-through-deep-reinforcement-learning.pdf (#2 on project spec)
+------- Related to above: https://junshern.github.io/paper-reading-group/2020/12/21/human-level-control.html
+--- https://elib.dlr.de/127994/1/08569938.pdf (#1)
 - Add different type of vehicles to the SUMO simulation right now it all just normal vehicles
-- maybe add pedestrian traffic light crossings
 - try a bunch of traffic scenarios i.e. rush hour and stuff (it is in the README actually, and also maybe find in papers)
     - also need to change in netedit (SUMO) how many cars there are and stuff for each path across the intersection
-- maybe recreate a real life intersection
-    - could make the intersection larger
 - think about different reward functions we can use and think about what our goal is 
     - i.e. currently the reward function wants to minimise queue size, however this has the problem that lets say if everybody is travelling in 1 direction, maybe other intersections wont be able to go
         - idk if this goes into like stuf about equality i.e. is it fair for people on one of the less busy streets to wait forever for the tradeoff that busy streets wont get as jammed
 - think about what additional data might we add for our RL states 
     - right now it is just a value correspondign to each lane which counts the number of stationary queueing vehicles 
-    - some ideas: 
+    - some ideas:
         - could count all vehicles (doesnt have to be queueing)
         - maybe vehicle speed (prob not cos irl might incentive speeding)
 - need to implement compulsory yellow lights when lights are changing from green to reward
