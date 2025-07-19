@@ -9,12 +9,13 @@
 - think about different reward functions we can use and think about what our goal is 
     - i.e. currently the reward function wants to minimise queue size, however this has the problem that lets say if everybody is travelling in 1 direction, maybe other intersections wont be able to go
         - idk if this goes into like stuf about equality i.e. is it fair for people on one of the less busy streets to wait forever for the tradeoff that busy streets wont get as jammed
-- think about what additional data might we add for our RL states 
-    - right now it is just a value correspondign to each lane which counts the number of stationary queueing vehicles 
+    - minimising average queue wait time per vehicle?
+- think about what additional data might we add for our RL states
+    - right now it is just a value correspondign to each lane which counts the number of stationary queueing vehicle
     - some ideas:
         - could count all vehicles (doesnt have to be queueing)
         - maybe vehicle speed (prob not cos irl might incentive speeding)
-- need to implement compulsory yellow lights when lights are changing from green to reward
+- need to implement compulsory yellow lights when lights are changing from green to red
 - fine tuning the RL parameters
 - create plots such as how total queue time, perhaps a wave plot or whatever its called of the distribution of the number of cars waiting at each step
-- ALSO JSUT WORKIGN O NTEH REPOORT
+- report and pres work (includes stuff in notebooks like intro, data explanation/description, etc.)
