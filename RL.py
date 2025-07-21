@@ -1,28 +1,28 @@
-import os 
-import sys 
+import os
+import sys
 import random
 from collections import deque
 import torch.optim as optim
 
-if 'SUMO_HOME' in os.environ:
-    tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
+if "SUMO_HOME" in os.environ:
+    tools = os.path.join(os.environ["SUMO_HOME"], "tools")
     sys.path.append(tools)
 else:
     sys.exit("Please declare environment variable 'SUMO_HOME'")
 
-#------------------------------------------------------------------
+# ------------------------------------------------------------------
 
-import traci 
+import traci
 
 sumo_config = [
-    'sumo',
-    '-c', 'SUMO_networks/junction.sumocfg',
-    '--step-length', '0.05',
-    '--delay', '0',
-    '--lateral-resolution', '0.1',
-    '--start',
-    '--no-warnings',
-    "--no-step-log"
+    "sumo",
+    "-c", "SUMO_networks/junction.sumocfg",
+    "--step-length", "0.05",
+    "--delay", "0",
+    "--lateral-resolution", "0.1",
+    "--start",
+    "--no-warnings",
+    "--no-step-log",
 ]
 
 traci.start(sumo_config)
@@ -33,9 +33,11 @@ YELLOW_PHASE_DURATION = 4
 lane_detectors = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8']
 action = []
 
+
 def change_env():
     traci.close()
     traci.start(sumo_config)
+
 
 def get_current_state():
     state = []
@@ -73,11 +75,13 @@ def step(action):
         return next_state, reward, done
 
 
-#------------------------------------------------------------------
+
+# ------------------------------------------------------------------
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+
 
 class DQN(nn.Module):
     def __init__(self, state_space_size, action_space_size):
@@ -87,24 +91,32 @@ class DQN(nn.Module):
             nn.ReLU(),
             nn.Linear(128, 64),
             nn.ReLU(),
-            nn.Linear(64, action_space_size)
+            nn.Linear(64, action_space_size),
         )
 
     def forward(self, x):
         output = self.main(x)
         return output
 
+
 learning_rate = 0.01
-gamma = 0.999 # discount factor
-epsilon = 0.9 # starting exploration rate
+
+# discount factor
+gamma = 0.999
+
+# starting exploration rate
+epsilon = 0.9
+
+# rate of decay as model becomes more stable (5%)
 epsilon_decay = 0.95
-min_epsilon = 0.05 # exploration rate towards end of training as the model becomes more stable
+
+# final exploration rate for stable model
+min_epsilon = 0.05
 batch_size = 128
 target_update_freq = 400
 memory_size = 10000
 episodes = 75
 # episodes = 200
-
 
 state = torch.tensor([0, 0, 0, 0, 0, 0, 0, 0], dtype=torch.float)
 action_space_size = 8
@@ -119,17 +131,19 @@ target_net.eval()
 optimizer = optim.Adam(policy_net.parameters(), lr=learning_rate)
 memory = deque(maxlen=memory_size)
 
+
 def choose_action(state, epsilon):
     if random.random() < epsilon:
         return random.randint(0, action_space_size - 1)
     else:
         q_values = policy_net(state.unsqueeze(0))
         return torch.argmax(q_values).item()
-    
+
+
 def optimise_model():
     if len(memory) < batch_size:
         return
-    
+
     batch = random.sample(memory, batch_size)
 
     state_batch = torch.stack([b[0] for b in batch]).float()
@@ -153,7 +167,7 @@ def optimise_model():
     optimizer.step()
 
 
-#------------------------------------------------------------------
+# ------------------------------------------------------------------
 
 rewards_per_episode = []
 steps_done = 0
@@ -165,7 +179,7 @@ for episode in range(episodes):
     state = get_current_state()
     episode_reward = 0
     done = False
-    
+
     while not done:
         # Select action
         action = choose_action(state, epsilon)
@@ -175,7 +189,7 @@ for episode in range(episodes):
         # print(f"Next State: {next_state.tolist()}")
         # Store transition in memory
         memory.append((state, action, reward, next_state, done))
-        
+
         # Update state
         state = next_state
         episode_reward += reward
@@ -197,8 +211,9 @@ for episode in range(episodes):
 torch.save(policy_net.state_dict(), "dqn_model.pth")
 
 import matplotlib.pyplot as plt
+
 plt.plot(rewards_per_episode)
-plt.xlabel('Episode')
-plt.ylabel('Reward')
-plt.title('DQN on traffic lights')
+plt.xlabel("Episode")
+plt.ylabel("Reward")
+plt.title("DQN on traffic lights")
 plt.show()

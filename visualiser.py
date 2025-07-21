@@ -7,19 +7,23 @@ import traci
 import time
 
 # ----- Setup -----
-if 'SUMO_HOME' in os.environ:
-    tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
+if "SUMO_HOME" in os.environ:
+    tools = os.path.join(os.environ["SUMO_HOME"], "tools")
     sys.path.append(tools)
 else:
     sys.exit("Please declare environment variable 'SUMO_HOME'")
 
 # SUMO configuration
 sumo_config = [
-    'sumo-gui',
-    '-c', 'SUMO_networks/junction.sumocfg',
-    '--step-length', '0.05',
-    '--delay', '1000'
+    "sumo-gui",
+    "-c",
+    "SUMO_networks/junction.sumocfg",
+    "--step-length",
+    "0.05",
+    "--delay",
+    "1000",
 ]
+
 
 # ----- DQN Model -----
 class DQN(nn.Module):
@@ -30,14 +34,15 @@ class DQN(nn.Module):
             nn.ReLU(),
             nn.Linear(128, 64),
             nn.ReLU(),
-            nn.Linear(64, action_dim)
+            nn.Linear(64, action_dim),
         )
 
     def forward(self, x):
         return self.main(x)
 
+
 # ----- Environment Setup -----
-lane_detectors = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8']
+lane_detectors = ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8"]
 TRAFFIC_LIGHT_ID = "traffic_light"
 DELTA_PHASE_DURATION = 6
 YELLOW_PHASE_DURATION = 4
