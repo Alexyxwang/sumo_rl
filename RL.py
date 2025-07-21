@@ -28,7 +28,8 @@ sumo_config = [
 traci.start(sumo_config)
 
 TRAFFIC_LIGHT_ID = "traffic_light"
-MIN_PHASE_DURATION = 5
+DELTA_PHASE_DURATION = 6
+YELLOW_PHASE_DURATION = 4
 lane_detectors = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8']
 action = []
 
@@ -42,21 +43,35 @@ def get_current_state():
         state.append(traci.lanearea.getLastStepHaltingNumber(detector))
     return torch.tensor(state, dtype=torch.float)
 
-def simulate_time(seconds = MIN_PHASE_DURATION):
+def simulate_time(seconds = 1):
     for i in range(20 * seconds):
         traci.simulationStep()
 
+current_phase = 2
 
 def step(action):
-    global current_phase, phase_timer
-    # current_queue_size = torch.sum(get_current_state())
-    traci.trafficlight.setPhase(TRAFFIC_LIGHT_ID, 2 * action)
-    simulate_time()
-    next_state = get_current_state()
-    next_queue_size = torch.sum(next_state)
-    reward =  -next_queue_size
-    done = traci.simulation.getMinExpectedNumber() == 0
-    return next_state, reward, done
+    global current_phase
+
+    if 2 * action == current_phase:
+        traci.trafficlight.setPhase(TRAFFIC_LIGHT_ID, 2 * action)
+        simulate_time(DELTA_PHASE_DURATION)
+        next_state = get_current_state()
+        next_queue_size = torch.sum(next_state)
+        reward =  -next_queue_size
+        done = traci.simulation.getMinExpectedNumber() == 0
+        return next_state, reward, done
+    else:
+        traci.trafficlight.setPhase(TRAFFIC_LIGHT_ID, current_phase + 1)
+        simulate_time(YELLOW_PHASE_DURATION)
+        current_phase = 2 * action
+        traci.trafficlight.setPhase(TRAFFIC_LIGHT_ID, 2 * action)
+        simulate_time(DELTA_PHASE_DURATION)
+        next_state = get_current_state()
+        next_queue_size = torch.sum(next_state)
+        reward =  -next_queue_size
+        done = traci.simulation.getMinExpectedNumber() == 0
+        return next_state, reward, done
+
 
 #------------------------------------------------------------------
 

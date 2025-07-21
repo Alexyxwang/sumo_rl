@@ -1,6 +1,5 @@
 - Read through papers to know what they did
 - Add different type of vehicles to the SUMO simulation right now it all just normal vehicles
-- maybe add pedestrian traffic light crossings
 - try a bunch of traffic scenarios i.e. rush hour and stuff (it is in the README actually, and also maybe find in papers)
     - also need to change in netedit (SUMO) how many cars there are and stuff for each path across the intersection
 - maybe recreate a real life intersection
@@ -15,5 +14,6 @@
         - maybe vehicle speed (prob not cos irl might incentive speeding)
 - need to implement compulsory yellow lights when lights are changing from green to reward
 - fine tuning the RL parameters
+- experiment with different DQN achitecture
 - create plots such as how total queue time, perhaps a wave plot or whatever its called of the distribution of the number of cars waiting at each step
 - ALSO JSUT WORKIGN O NTEH REPOORT
