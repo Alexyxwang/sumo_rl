@@ -168,8 +168,6 @@ rewards_per_episode = []
 avg_wait_per_ep = []
 max_wait_per_ep = []
 steps_done = 0
-total_finished_vehicles = []
-total_vehicles = []
 
 for episode in range(episodes):
     print(f"Episode {episode}")
