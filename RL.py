@@ -1,8 +1,11 @@
+from math import inf
 import os
 import sys
 import random
 from collections import deque
+import time
 import torch.optim as optim
+# print("imports done")
 
 if "SUMO_HOME" in os.environ:
     tools = os.path.join(os.environ["SUMO_HOME"], "tools")
@@ -24,9 +27,14 @@ sumo_config = [
     "--start",
     "--no-warnings",
     "--no-step-log",
+    "--waiting-time-memory", "-1"
 ]
 
+# print("about to traci.start")
+
 traci.start(sumo_config)
+
+# print("traci started")
 
 TRAFFIC_LIGHT_ID = "traffic_light"
 MIN_PHASE_DURATION = 5
@@ -36,6 +44,7 @@ action = []
 
 def change_env():
     traci.close()
+    time.sleep(0.5)
     traci.start(sumo_config)
 
 
@@ -153,24 +162,36 @@ def optimise_model():
     loss.backward()
     optimizer.step()
 
-
 # ------------------------------------------------------------------
 
 rewards_per_episode = []
+avg_wait_per_ep = []
+max_wait_per_ep = []
 steps_done = 0
+total_finished_vehicles = []
+total_vehicles = []
 
 for episode in range(episodes):
     print(f"Episode {episode}")
+
     change_env()
+    # print("Successful connection to TraCI")
 
     state = get_current_state()
     episode_reward = 0
     done = False
-
+    vehicle_wait_tracker = {}
     while not done:
         # Select action
         action = choose_action(state, epsilon)
         next_state, reward, done = step(action)
+
+        for v_id in traci.vehicle.getIDList():
+            wait_time = traci.vehicle.getWaitingTime(v_id)
+            if v_id not in vehicle_wait_tracker:
+                vehicle_wait_tracker[v_id] = wait_time
+            elif wait_time > vehicle_wait_tracker[v_id]:
+                vehicle_wait_tracker[v_id] = wait_time
 
         # print(f"Action={action}, Reward={reward:.2f}, Done={done}")
         # print(f"Next State: {next_state.tolist()}")
@@ -190,10 +211,28 @@ for episode in range(episodes):
 
         steps_done += 1
 
+    avg_wait = 0.0
+    max_wait = 0.0
+    vehicle_waits = []
+    for key in vehicle_wait_tracker:
+        vehicle_waits.append(vehicle_wait_tracker[key])
+
+    if vehicle_waits:
+        avg_wait = sum(vehicle_waits) / len(vehicle_waits)
+        max_wait = max(vehicle_waits)
+
+    avg_wait_per_ep.append(avg_wait)
+    max_wait_per_ep.append(max_wait)
+
+    # print(avg_wait_per_ep)
+    # print(max_wait_per_ep)
+
     # Decay epsilon
     epsilon = max(min_epsilon, epsilon_decay * epsilon)
-    print(episode_reward)
+    # print(episode_reward)
     rewards_per_episode.append(episode_reward)
+
+    # calc avg queue length
 
 torch.save(policy_net.state_dict(), "dqn_model.pth")
 
@@ -202,5 +241,17 @@ import matplotlib.pyplot as plt
 plt.plot(rewards_per_episode)
 plt.xlabel("Episode")
 plt.ylabel("Reward")
+plt.title("DQN on traffic lights")
+plt.show()
+
+plt.plot(avg_wait_per_ep)
+plt.xlabel("Episode")
+plt.ylabel("Average Wait")
+plt.title("DQN on traffic lights")
+plt.show()
+
+plt.plot(max_wait_per_ep)
+plt.xlabel("Episode")
+plt.ylabel("Maximum Wait")
 plt.title("DQN on traffic lights")
 plt.show()
