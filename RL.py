@@ -4,6 +4,9 @@ import random
 from collections import deque
 import torch.optim as optim
 
+import math
+import time
+
 if "SUMO_HOME" in os.environ:
     tools = os.path.join(os.environ["SUMO_HOME"], "tools")
     sys.path.append(tools)
@@ -38,15 +41,19 @@ def change_env():
     traci.close()
     traci.start(sumo_config)
 
-
-def get_current_state():
+def get_queue_length():
     state = []
     for detector in lane_detectors:
         state.append(traci.lanearea.getLastStepHaltingNumber(detector))
+    # print(state)
+    # print(torch.tensor(state, dtype=torch.float))
     return torch.tensor(state, dtype=torch.float)
 
+def get_current_state():
+    return get_queue_length()
+
 def simulate_time(seconds = 1):
-    for i in range(20 * seconds):
+    for _ in range(20 * seconds):
         traci.simulationStep()
 
 current_phase = 2
@@ -73,7 +80,6 @@ def step(action):
         reward =  -next_queue_size
         done = traci.simulation.getMinExpectedNumber() == 0
         return next_state, reward, done
-
 
 
 # ------------------------------------------------------------------
@@ -115,7 +121,8 @@ min_epsilon = 0.05
 batch_size = 128
 target_update_freq = 400
 memory_size = 10000
-episodes = 75
+episodes = 5
+# episodes = 75
 # episodes = 200
 
 state = torch.tensor([0, 0, 0, 0, 0, 0, 0, 0], dtype=torch.float)
@@ -172,6 +179,14 @@ def optimise_model():
 rewards_per_episode = []
 steps_done = 0
 
+# ADDITIONS
+avg_wait_per_ep = []
+max_wait_per_ep = []
+
+num_lanes = len(lane_detectors)
+all_avg_queue_lengths = torch.zeros(num_lanes, episodes)
+
+
 for episode in range(episodes):
     print(f"Episode {episode}")
     change_env()
@@ -180,10 +195,36 @@ for episode in range(episodes):
     episode_reward = 0
     done = False
 
+    vehicle_wait_tracker = {} # NEW
+    queue_length_tracker = {}
+    num_steps = 0
     while not done:
+        num_steps += 1 
         # Select action
         action = choose_action(state, epsilon)
         next_state, reward, done = step(action)
+
+        # ADDITIONS
+        for v_id in traci.vehicle.getIDList():
+            wait_time = traci.vehicle.getWaitingTime(v_id)
+
+            if v_id not in vehicle_wait_tracker:
+                vehicle_wait_tracker[v_id] = wait_time
+            elif wait_time > vehicle_wait_tracker[v_id]:
+                vehicle_wait_tracker[v_id] = wait_time
+        #
+
+        # retrive queue length: list of size 8 (one number for each lane detector)
+        curr_queue = get_queue_length()
+        for i in range(len(curr_queue)):
+            if i not in queue_length_tracker:
+                queue_length_tracker[i] = curr_queue[i]
+            else:
+                queue_length_tracker[i] += curr_queue[i]
+
+        # sum each lane's queue length for every step (lane by lane)
+        # at the end of the episode, find average lane queue length per lane
+
 
         # print(f"Action={action}, Reward={reward:.2f}, Done={done}")
         # print(f"Next State: {next_state.tolist()}")
@@ -203,6 +244,26 @@ for episode in range(episodes):
 
         steps_done += 1
 
+    # ADDITIONS
+    
+    for i, len_i in queue_length_tracker.items():
+        all_avg_queue_lengths[i, episode] = len_i / num_steps
+        
+    avg_wait = 0.0
+    max_wait = 0.0
+    vehicle_waits = []
+
+    for key in vehicle_wait_tracker:
+        vehicle_waits.append(vehicle_wait_tracker[key])
+
+    if vehicle_waits:
+        avg_wait = sum(vehicle_waits) / len(vehicle_waits)
+        max_wait = max(vehicle_waits)
+
+    avg_wait_per_ep.append(avg_wait)
+    max_wait_per_ep.append(max_wait)
+    # 
+    
     # Decay epsilon
     epsilon = max(min_epsilon, epsilon_decay * epsilon)
     print(episode_reward)
@@ -212,8 +273,48 @@ torch.save(policy_net.state_dict(), "dqn_model.pth")
 
 import matplotlib.pyplot as plt
 
+# Total reward per episode
+plt.figure()
 plt.plot(rewards_per_episode)
 plt.xlabel("Episode")
 plt.ylabel("Reward")
 plt.title("DQN on traffic lights")
-plt.show()
+plt.grid(True)
+plt.tight_layout()
+plt.savefig("Plots/rewards_per_episode.png")
+plt.close()
+
+# Average wait time per episode
+plt.figure()
+plt.plot(avg_wait_per_ep)
+plt.xlabel("Episode")
+plt.ylabel("Average Wait")
+plt.title("DQN on traffic lights - Avg Wait")
+plt.grid(True)
+plt.tight_layout()
+plt.savefig("Plots/avg_wait_per_episode.png")
+plt.close()
+
+# Maximum wait time per episode
+plt.figure()
+plt.plot(max_wait_per_ep)
+plt.xlabel("Episode")
+plt.ylabel("Maximum Wait")
+plt.title("DQN on traffic lights - Max Wait")
+plt.grid(True)
+plt.tight_layout()
+plt.savefig("Plots/max_wait_per_episode.png")
+plt.close()
+
+# Per-lane average queue length
+num_lanes = all_avg_queue_lengths.shape[0]
+for lane_index in range(num_lanes):
+    plt.figure()
+    plt.plot(all_avg_queue_lengths[lane_index].numpy())
+    plt.xlabel("Episode")
+    plt.ylabel("Avg Queue Length")
+    plt.title(f"Avg queue length per episode for lane {lane_index}")
+    plt.grid(True)
+    plt.tight_layout()
+    plt.savefig(f"Plots/avg_queue_lane_{lane_index}.png")
+    plt.close()
