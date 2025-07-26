@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2025-07-10 00:55:18 by Eclipse SUMO netedit Version 1.23.1
+<!-- generated on 2025-07-26 23:24:06 by Eclipse SUMO netedit Version 1.23.1
 <neteditConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/neteditConfiguration.xsd">
 
     <input>
-        <sumocfg-file value="C:\Users\alexw\Desktop\COMP9444\Project\sumo_rl\SUMO_networks\junction.sumocfg"/>
-        <additional-files value="C:\Users\alexw\Desktop\COMP9444\Project\sumo_rl\SUMO_networks\junction.add.xml"/>
-        <route-files value="C:\Users\alexw\Desktop\COMP9444\Project\sumo_rl\SUMO_networks\junction.rou.xml"/>
-        <sumo-net-file value="C:\Users\alexw\Desktop\COMP9444\Project\sumo_rl\SUMO_networks\junction.net.xml"/>
+        <sumocfg-file value="C:\Users\alexw\Desktop\COMP9444\Project\sumo_rl\SUMO_networks\P3\junction.sumocfg"/>
+        <additional-files value="C:\Users\alexw\Desktop\COMP9444\Project\sumo_rl\SUMO_networks\P3\junction.add.xml"/>
+        <route-files value="C:\Users\alexw\Desktop\COMP9444\Project\sumo_rl\SUMO_networks\P3\junction.rou.xml"/>
+        <sumo-net-file value="C:\Users\alexw\Desktop\COMP9444\Project\sumo_rl\SUMO_networks\P3\junction.net.xml"/>
     </input>
 
     <output>
-        <output-file value="C:\Users\alexw\Desktop\COMP9444\Project\sumo_rl\SUMO_networks\junction.net.xml"/>
+        <output-file value="C:\Users\alexw\Desktop\COMP9444\Project\sumo_rl\SUMO_networks\P3\junction.net.xml"/>
     </output>
 
     <processing>
