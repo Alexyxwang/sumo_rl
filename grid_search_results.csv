@@ -1,3 +1,2 @@
 gamma,epsilon,epsilon_decay,min_epsilon,learning_rate,batch_size,target_update_freq,memory_size,avg_reward
-0.99,1.0,0.99,0.05,0.001,64,100,5000,-11777.0
-0.7,1.0,0.99,0.05,0.001,64,100,5000,-17974.0
+0.99,0.9,0.95,0.05,0.001,128,400,10000,-12663.0
