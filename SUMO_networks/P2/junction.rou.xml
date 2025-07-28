@@ -5,17 +5,17 @@
 
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
     <!-- Vehicles, persons and containers (sorted by depart) -->
-    <flow id="f_1" from="r_2_3_E" to="r_3_4_E" begin="0.00" end="3600.00" period="exp(0.05)"/>
-    <flow id="f_0" from="r_3_4_W" to="r_2_3_W" begin="0.00" end="3600.00" period="exp(0.05)"/>
-    <flow id="f_3" from="r_2_3_E" to="r_3_5_S" begin="0.00" end="3600.00" period="exp(0.1)"/>
-    <flow id="f_2" from="r_3_4_W" to="r_1_3_N" begin="0.00" end="3600.00" period="exp(0.1)"/>
-    <flow id="f_5" from="r_2_3_E" to="r_1_3_N" begin="0.00" end="3600.00" period="exp(0.01)"/>
-    <flow id="f_4" from="r_3_4_W" to="r_3_5_S" begin="0.00" end="3600.00" period="exp(0.01)"/>
-    <flow id="f_7" from="r_3_5_N" to="r_1_3_N" begin="0.00" end="3600.00" period="exp(0.05)"/>
-    <flow id="f_6" from="r_1_3_S" to="r_3_5_S" begin="0.00" end="3600.00" period="exp(0.05)"/>
-    <flow id="f_9" from="r_3_5_N" to="r_2_3_W" begin="0.00" end="3600.00" period="exp(0.025)"/>
-    <flow id="f_8" from="r_1_3_S" to="r_3_4_E" begin="0.00" end="3600.00" period="exp(0.025)"/>
-    <flow id="f_11" from="r_3_5_N" to="r_3_4_E" begin="0.00" end="3600.00" period="exp(0.01)"/>
-    <flow id="f_10" from="r_1_3_S" to="r_2_3_W" begin="0.00" end="3600.00" period="exp(0.01)"/>
+    <flow id="f_1" from="r_2_3_E" to="r_3_4_E" begin="0.00" end="1800.00" period="exp(0.05)"/>
+    <flow id="f_0" from="r_3_4_W" to="r_2_3_W" begin="0.00" end="1800.00" period="exp(0.05)"/>
+    <flow id="f_3" from="r_2_3_E" to="r_3_5_S" begin="0.00" end="1800.00" period="exp(0.1)"/>
+    <flow id="f_2" from="r_3_4_W" to="r_1_3_N" begin="0.00" end="1800.00" period="exp(0.1)"/>
+    <flow id="f_5" from="r_2_3_E" to="r_1_3_N" begin="0.00" end="1800.00" period="exp(0.01)"/>
+    <flow id="f_4" from="r_3_4_W" to="r_3_5_S" begin="0.00" end="1800.00" period="exp(0.01)"/>
+    <flow id="f_7" from="r_3_5_N" to="r_1_3_N" begin="0.00" end="1800.00" period="exp(0.05)"/>
+    <flow id="f_6" from="r_1_3_S" to="r_3_5_S" begin="0.00" end="1800.00" period="exp(0.05)"/>
+    <flow id="f_9" from="r_3_5_N" to="r_2_3_W" begin="0.00" end="1800.00" period="exp(0.025)"/>
+    <flow id="f_8" from="r_1_3_S" to="r_3_4_E" begin="0.00" end="1800.00" period="exp(0.025)"/>
+    <flow id="f_11" from="r_3_5_N" to="r_3_4_E" begin="0.00" end="1800.00" period="exp(0.01)"/>
+    <flow id="f_10" from="r_1_3_S" to="r_2_3_W" begin="0.00" end="1800.00" period="exp(0.01)"/>
 
 </routes>
