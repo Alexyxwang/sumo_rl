@@ -1,2 +1,5 @@
-gamma,epsilon,epsilon_decay,min_epsilon,learning_rate,batch_size,target_update_freq,memory_size,avg_reward
-0.99,0.9,0.95,0.05,0.001,128,400,10000,-12663.0
+gamma,epsilon,epsilon_decay,min_epsilon,learning_rate,batch_size,target_update_freq,memory_size,avg_reward,avg_reward_last_N,avg_wait_last_N,max_wait_last_N
+0.999,0.9,0.97,0.05,0.001,128,1800,10000,-1355.785,-1106.0,7.018258895201768,298.45
+0.999,0.9,0.97,0.05,0.001,128,1800,20000,-1346.825,-1108.3,7.048159634770498,297.75
+0.999,0.9,0.99,0.05,0.001,128,1800,10000,-1910.805,-1329.25,8.555047001563988,298.4
+0.999,0.9,0.99,0.05,0.001,128,1800,20000,-1915.69,-1228.725,7.894369052623273,296.95
